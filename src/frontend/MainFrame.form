@@ -44,28 +44,31 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="AdminPanel2" min="-2" pref="138" max="-2" attributes="0"/>
+                      <Component id="AdminPanel" min="-2" pref="138" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
               <Component id="jSeparator1" min="-2" pref="50" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jCalendar1" pref="667" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="AdminPanel" min="-2" pref="138" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
-                      <Component id="AdminPanel3" min="-2" pref="138" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="197" max="-2" attributes="0"/>
-                  </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="250" max="-2" attributes="0"/>
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="TarefasButton" min="-2" pref="138" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
+                              <Component id="AdminPanel3" min="-2" pref="138" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="197" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="jCalendar1" min="-2" pref="685" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
               </Group>
           </Group>
@@ -85,7 +88,7 @@
               <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
               <Component id="jButton1" min="-2" pref="33" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="AdminPanel2" min="-2" pref="33" max="-2" attributes="0"/>
+              <Component id="AdminPanel" min="-2" pref="33" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
               <Component id="AdminPanel1" min="-2" pref="33" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
@@ -96,7 +99,7 @@
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="AdminPanel3" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
-                  <Component id="AdminPanel" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                  <Component id="TarefasButton" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jCalendar1" min="-2" pref="228" max="-2" attributes="0"/>
@@ -139,7 +142,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="AdminPanel">
+    <Component class="javax.swing.JButton" name="TarefasButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Tarefas"/>
       </Properties>
@@ -154,7 +157,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AdminPanel1ActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="AdminPanel2">
+    <Component class="javax.swing.JButton" name="AdminPanel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Painel do Admin"/>
         <Property name="enabled" type="boolean" value="false"/>

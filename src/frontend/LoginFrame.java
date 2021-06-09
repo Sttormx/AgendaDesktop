@@ -120,7 +120,7 @@ public class LoginFrame extends javax.swing.JFrame
         try 
         {
             int userID = VerificarLogin(UserField.getText(), PasswordField.getText());
-            
+
             if (userID > 0)
             {
                 System.out.println("Usuario encontrado!");

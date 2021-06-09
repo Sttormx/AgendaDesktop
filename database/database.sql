@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 09-Jun-2021 às 19:19
+-- Tempo de geração: 09-Jun-2021 às 22:43
 -- Versão do servidor: 10.4.14-MariaDB
 -- versão do PHP: 7.4.9
 
@@ -70,19 +70,6 @@ CREATE TABLE `usuario` (
 INSERT INTO `usuario` (`User_ID`, `User`, `Senha`, `Nome`, `Notificacoes`, `Template`, `Administrador`) VALUES
 (1, 'admin', 'admin', 'Administrador', 0, 1, 1);
 
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `usuariotarefa`
---
-
-CREATE TABLE `usuariotarefa` (
-  `DataTarefa` date NOT NULL,
-  `HoraTarefa` date NOT NULL,
-  `User_ID` int(11) NOT NULL,
-  `Tarefa_ID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 --
 -- Índices para tabelas despejadas
 --
@@ -106,13 +93,6 @@ ALTER TABLE `tarefa`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`User_ID`);
-
---
--- Índices para tabela `usuariotarefa`
---
-ALTER TABLE `usuariotarefa`
-  ADD KEY `fk_Userr_ID` (`User_ID`),
-  ADD KEY `fk_Tarefa_ID` (`Tarefa_ID`);
 
 --
 -- AUTO_INCREMENT de tabelas despejadas
@@ -146,13 +126,6 @@ ALTER TABLE `usuario`
 ALTER TABLE `tarefa`
   ADD CONSTRAINT `fk_Local_ID` FOREIGN KEY (`Local_ID`) REFERENCES `local` (`Local_ID`),
   ADD CONSTRAINT `fk_User_ID` FOREIGN KEY (`User_ID`) REFERENCES `usuario` (`User_ID`);
-
---
--- Limitadores para a tabela `usuariotarefa`
---
-ALTER TABLE `usuariotarefa`
-  ADD CONSTRAINT `fk_Tarefa_ID` FOREIGN KEY (`Tarefa_ID`) REFERENCES `tarefa` (`Tarefa_ID`),
-  ADD CONSTRAINT `fk_Userr_ID` FOREIGN KEY (`User_ID`) REFERENCES `usuario` (`User_ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

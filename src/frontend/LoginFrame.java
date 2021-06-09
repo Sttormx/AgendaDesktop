@@ -1,8 +1,11 @@
 package frontend;
-import backend.Login;
 import backend.User;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import util.MySQL;
 
 public class LoginFrame extends javax.swing.JFrame 
 {
@@ -11,6 +14,26 @@ public class LoginFrame extends javax.swing.JFrame
         initComponents();
     }
 
+    public static int VerificarLogin(String Login, String Password) throws Exception
+    {
+        // Inicia a Conexao;
+        Connection conn = MySQL.abrir();
+        
+        // SQL
+        String SQL = "SELECT User_ID FROM usuario WHERE User = '" + Login + "' AND Senha = '" + Password + "';";
+        PreparedStatement comando = conn.prepareStatement(SQL);
+        ResultSet resultado = comando.executeQuery();
+        
+        int k = 0;        
+        while (resultado.next())
+            k = resultado.getInt("User_ID");
+            
+        resultado.close();
+        comando.close();
+        conn.close();
+        return k;
+    }  
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -19,12 +42,13 @@ public class LoginFrame extends javax.swing.JFrame
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        SairButton = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         PasswordField = new javax.swing.JPasswordField();
         UserField = new javax.swing.JTextField();
         ErrorLabel = new javax.swing.JLabel();
+        EntrarButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
@@ -48,14 +72,14 @@ public class LoginFrame extends javax.swing.JFrame
         getContentPane().add(jLabel4);
         jLabel4.setBounds(280, 10, 70, 80);
 
-        jButton1.setText("Acessar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        SairButton.setText("Sair");
+        SairButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                SairButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1);
-        jButton1.setBounds(270, 230, 90, 24);
+        getContentPane().add(SairButton);
+        SairButton.setBounds(220, 230, 80, 24);
 
         jLabel5.setText("Usuario");
         getContentPane().add(jLabel5);
@@ -75,14 +99,27 @@ public class LoginFrame extends javax.swing.JFrame
         getContentPane().add(ErrorLabel);
         ErrorLabel.setBounds(230, 200, 180, 16);
 
+        EntrarButton.setText("Acessar");
+        EntrarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EntrarButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(EntrarButton);
+        EntrarButton.setBounds(310, 230, 80, 24);
+
         setSize(new java.awt.Dimension(426, 306));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void SairButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SairButtonActionPerformed
+        dispose();
+    }//GEN-LAST:event_SairButtonActionPerformed
+
+    private void EntrarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EntrarButtonActionPerformed
         try 
         {
-            int userID = Login.VerificarLogin(UserField.getText(), PasswordField.getText());
+            int userID = VerificarLogin(UserField.getText(), PasswordField.getText());
             
             if (userID > 0)
             {
@@ -110,7 +147,7 @@ public class LoginFrame extends javax.swing.JFrame
         {
             Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_EntrarButtonActionPerformed
 
     public static void main(String args[]) 
     {
@@ -146,10 +183,11 @@ public class LoginFrame extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton EntrarButton;
     private javax.swing.JLabel ErrorLabel;
     private javax.swing.JPasswordField PasswordField;
+    private javax.swing.JButton SairButton;
     private javax.swing.JTextField UserField;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

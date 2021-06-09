@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 09-Jun-2021 às 06:28
+-- Tempo de geração: 09-Jun-2021 às 19:19
 -- Versão do servidor: 10.4.14-MariaDB
 -- versão do PHP: 7.4.9
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Banco de dados: `teste`
+-- Banco de dados: `projeto`
 --
 
 -- --------------------------------------------------------
@@ -62,6 +62,13 @@ CREATE TABLE `usuario` (
   `Template` int(11) NOT NULL,
   `Administrador` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Extraindo dados da tabela `usuario`
+--
+
+INSERT INTO `usuario` (`User_ID`, `User`, `Senha`, `Nome`, `Notificacoes`, `Template`, `Administrador`) VALUES
+(1, 'admin', 'admin', 'Administrador', 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -127,7 +134,7 @@ ALTER TABLE `tarefa`
 -- AUTO_INCREMENT de tabela `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `User_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `User_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restrições para despejos de tabelas

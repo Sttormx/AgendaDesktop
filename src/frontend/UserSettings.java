@@ -1,5 +1,6 @@
 package frontend;
 import backend.User;
+import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -76,6 +77,11 @@ public class UserSettings extends javax.swing.JFrame
         jLabel4.setText("Senha");
 
         jButton1.setText("Trocar Senha");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Salvar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -152,6 +158,13 @@ public class UserSettings extends javax.swing.JFrame
             Logger.getLogger(UserSettings.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        changePassword pass = new changePassword();
+        pass.setVisible(true);
+        pass.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
+        pass.setUserInstance(this.getUserInstance());
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

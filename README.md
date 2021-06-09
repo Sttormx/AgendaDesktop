@@ -12,8 +12,7 @@
 - Build the project.
 
 ## Execute
-> Run the AgendaDesktop.jar file or build in an IDE.
-
+- Run the AgendaDesktop.jar file or build in an IDE.
 ## Contributing
 
 1. Fork it (<https://github.com/Sttormx/AgendaDesktop/>)

@@ -13,6 +13,7 @@ public class User
     // Private Attributes
     private String Login;
     private String Username;
+    private String Password;
     private int Template;
     private int _Notify;
     private int admin;
@@ -25,6 +26,16 @@ public class User
     public void setLogin(String newLogin)
     {
         this.Login = newLogin;
+    }
+    
+    public String getPassword()
+    {
+        return this.Password;
+    }
+    
+    public void setPassword(String newPassword)
+    {
+        this.Password = newPassword;
     }
     
     public String getUsername()
@@ -102,6 +113,7 @@ public class User
                 {
                     this.setUsername(resultado.getString("Nome"));
                     this.setLogin(resultado.getString("User"));
+                    this.setPassword(resultado.getString("Senha"));
                     this.setNotify(resultado.getInt("Notificacoes"));
                     this.setTemplate(resultado.getInt("Template"));
                     this.setAdmin(resultado.getInt("Administrador"));
@@ -122,6 +134,7 @@ public class User
             // SQL
             String sql = "UPDATE usuario SET Nome = '" + this.getUsername() + "',";
             sql = sql + " User = '" + this.Login + "',";
+            sql = sql + " Senha = '" + this.Password + "',";
             sql = sql + " Notificacoes = " + this._Notify + ",";
             sql = sql + " Template = " + this.Template + ",";
             sql = sql + " Administrador = " + this.admin;

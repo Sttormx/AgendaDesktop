@@ -61,7 +61,7 @@
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="TarefasButton" min="-2" pref="138" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
-                              <Component id="AdminPanel3" min="-2" pref="138" max="-2" attributes="0"/>
+                              <Component id="LocalPanel" min="-2" pref="138" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="197" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
@@ -98,7 +98,7 @@
               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="AdminPanel3" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                  <Component id="LocalPanel" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                   <Component id="TarefasButton" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -146,8 +146,14 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Tarefas"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TarefasButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="com.toedter.calendar.JCalendar" name="jCalendar1">
+      <Properties>
+        <Property name="weekOfYearVisible" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="AdminPanel1">
       <Properties>
@@ -162,11 +168,17 @@
         <Property name="text" type="java.lang.String" value="Painel do Admin"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AdminPanelActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="AdminPanel3">
+    <Component class="javax.swing.JButton" name="LocalPanel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Locais"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LocalPanelActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>

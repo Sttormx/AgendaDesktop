@@ -42,7 +42,7 @@ public class MainFrame extends javax.swing.JFrame
         jCalendar1 = new com.toedter.calendar.JCalendar();
         AdminPanel1 = new javax.swing.JButton();
         AdminPanel = new javax.swing.JButton();
-        AdminPanel3 = new javax.swing.JButton();
+        LocalPanel = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -63,6 +63,13 @@ public class MainFrame extends javax.swing.JFrame
         });
 
         TarefasButton.setText("Tarefas");
+        TarefasButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TarefasButtonActionPerformed(evt);
+            }
+        });
+
+        jCalendar1.setWeekOfYearVisible(false);
 
         AdminPanel1.setText("Sair");
         AdminPanel1.addActionListener(new java.awt.event.ActionListener() {
@@ -73,8 +80,18 @@ public class MainFrame extends javax.swing.JFrame
 
         AdminPanel.setText("Painel do Admin");
         AdminPanel.setEnabled(false);
+        AdminPanel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AdminPanelActionPerformed(evt);
+            }
+        });
 
-        AdminPanel3.setText("Locais");
+        LocalPanel.setText("Locais");
+        LocalPanel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LocalPanelActionPerformed(evt);
+            }
+        });
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/caderno.png"))); // NOI18N
 
@@ -111,7 +128,7 @@ public class MainFrame extends javax.swing.JFrame
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(TarefasButton, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(79, 79, 79)
-                                .addComponent(AdminPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(LocalPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(197, 197, 197))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, 685, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -139,7 +156,7 @@ public class MainFrame extends javax.swing.JFrame
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(AdminPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LocalPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(TarefasButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -161,6 +178,22 @@ public class MainFrame extends javax.swing.JFrame
     private void AdminPanel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminPanel1ActionPerformed
         dispose();
     }//GEN-LAST:event_AdminPanel1ActionPerformed
+
+    private void AdminPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminPanelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AdminPanelActionPerformed
+
+    private void TarefasButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TarefasButtonActionPerformed
+        TarefasPanel tarefas = new TarefasPanel();
+        tarefas.setVisible(true);
+        tarefas.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
+        tarefas.loadTarefas();
+    }//GEN-LAST:event_TarefasButtonActionPerformed
+
+    private void LocalPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LocalPanelActionPerformed
+        LocalPanel local = new LocalPanel();
+        local.setVisible(true);
+    }//GEN-LAST:event_LocalPanelActionPerformed
     
     public static void main(String args[]) 
     {
@@ -184,7 +217,7 @@ public class MainFrame extends javax.swing.JFrame
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AdminPanel;
     private javax.swing.JButton AdminPanel1;
-    private javax.swing.JButton AdminPanel3;
+    private javax.swing.JButton LocalPanel;
     private javax.swing.JButton TarefasButton;
     private javax.swing.JLabel UserNameLabel;
     private javax.swing.JButton jButton1;

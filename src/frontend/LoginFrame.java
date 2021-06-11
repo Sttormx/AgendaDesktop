@@ -51,6 +51,8 @@ public class LoginFrame extends javax.swing.JFrame
         EntrarButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Login");
+        setResizable(false);
         getContentPane().setLayout(null);
 
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));

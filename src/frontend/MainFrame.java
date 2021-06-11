@@ -46,6 +46,8 @@ public class MainFrame extends javax.swing.JFrame
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Tela Principal");
+        setResizable(false);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/user.png"))); // NOI18N
 
@@ -170,7 +172,7 @@ public class MainFrame extends javax.swing.JFrame
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         UserSettings settings = new UserSettings();
         settings.setVisible(true);
-        settings.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
+        //settings.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
         settings.setUserInstance(this.getUserInstance());
         settings.loadUserSettings(this.getUserInstance());
     }//GEN-LAST:event_jButton1ActionPerformed

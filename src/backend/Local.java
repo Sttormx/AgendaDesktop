@@ -6,10 +6,10 @@ public class Local
     public static class _Local
     {
         // Private Attributes
-        private int LocalID;
-        private String Titulo;
-        private String Dresc;
-        private int TarefaID;
+        private final int LocalID;
+        private final String Titulo;
+        private final String Dresc;
+        private final int UserID;
         
         // Methods
         public int getLocalID()
@@ -21,31 +21,48 @@ public class Local
         {
             return this.Titulo;
         }
+        
+        public String getDescricao()
+        {
+            return this.Dresc;
+        }
+        
+        public int getUserID()
+        {
+            return this.UserID;
+        }
+    
+        // Constroi uma nova instancia de um local
+        public _Local(int _LocalID, String _Titulo, String _Dresc, int _TarefaID)
+        {
+            this.LocalID = _LocalID;
+            this.Titulo = _Titulo;
+            this.Dresc = _Dresc;
+            this.UserID = _TarefaID;
+        }
     }
     
     // Contem todas as instancias de todos os locais
-    public _Local locais[] = new _Local[10];
+    private int ArrayLocaisLength;
+    public _Local locais[] = new _Local[50];
     
-    public Local()
+    // Retorna o tamanho do array de instancias
+    public int getInstanceArrayLength()
     {
-        
+        return this.ArrayLocaisLength;
     }
     
-    // Constroi uma nova instancia de um local
-    public void cLocal(int _LocalID, String _Titulo, String _Dresc, int _TarefaID)
+    public void setInstanceArrayLength(int _Value)
     {
-        _Local L = new _Local();
-        L.LocalID = _LocalID;
-        L.Titulo = _Titulo;
-        L.Dresc = _Dresc;
-        L.TarefaID = _TarefaID;
-
-        insertLocalInstance(L);
+        this.ArrayLocaisLength = _Value;
     }
     
     // Insere no array de instancias
-    public void insertLocalInstance(_Local instance)
+    public void insertInstance(_Local instance, int position)
     {
-        locais[1] = instance;
+        if (position <= 50)    
+            locais[position] = instance;
+        else
+            System.out.println("Quantidade Maxima de locais atingidas.");
     }
 }

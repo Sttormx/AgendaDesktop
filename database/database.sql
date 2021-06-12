@@ -29,7 +29,9 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `local` (
   `Local_ID` int(11) NOT NULL,
-  `Descr` varchar(50) NOT NULL
+  `Nome` varchar(50) NOT NULL,
+  `Descr` varchar(50) NOT NULL,
+  `User_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -42,7 +44,6 @@ CREATE TABLE `tarefa` (
   `Tarefa_ID` int(11) NOT NULL,
   `Titulo` varchar(15) NOT NULL,
   `Descr` varchar(30) NOT NULL,
-  `Duracao` decimal(10,2) NOT NULL,
   `User_ID` int(11) NOT NULL,
   `Local_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -126,6 +127,10 @@ ALTER TABLE `usuario`
 ALTER TABLE `tarefa`
   ADD CONSTRAINT `fk_Local_ID` FOREIGN KEY (`Local_ID`) REFERENCES `local` (`Local_ID`),
   ADD CONSTRAINT `fk_User_ID` FOREIGN KEY (`User_ID`) REFERENCES `usuario` (`User_ID`);
+
+ALTER TABLE `local`
+  ADD CONSTRAINT `fk_User_ID_` FOREIGN KEY (`User_ID`) REFERENCES `usuario` (`User_ID`);
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

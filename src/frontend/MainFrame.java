@@ -2,6 +2,8 @@ package frontend;
 
 import backend.User;
 import java.awt.Toolkit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MainFrame extends javax.swing.JFrame 
 {
@@ -172,7 +174,7 @@ public class MainFrame extends javax.swing.JFrame
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         UserSettings settings = new UserSettings();
         settings.setVisible(true);
-        //settings.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
+        settings.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
         settings.setUserInstance(this.getUserInstance());
         settings.loadUserSettings(this.getUserInstance());
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -193,8 +195,16 @@ public class MainFrame extends javax.swing.JFrame
     }//GEN-LAST:event_TarefasButtonActionPerformed
 
     private void LocalPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LocalPanelActionPerformed
-        LocalPanel local = new LocalPanel();
-        local.setVisible(true);
+        LocalPanel local;
+        try 
+        {
+            local = new LocalPanel(this.getUserInstance());
+            local.setVisible(true);
+            local.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
+        } catch (Exception ex) 
+        {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_LocalPanelActionPerformed
     
     public static void main(String args[]) 

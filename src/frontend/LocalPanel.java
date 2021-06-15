@@ -3,6 +3,7 @@ import util.MySQL;
 import backend.Local;
 import backend.Local._Local;
 import backend.User;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +21,8 @@ public final class LocalPanel extends javax.swing.JFrame
         initComponents(); 
         Local loadLocal = new Local();
         setUserInstance(userInstance);
-        loadLocalInstances(loadLocal);
+        loadLocalInstances(loadLocal); 
+        this.LocalInstance = loadLocal;
     }
 
     public User getUserInstance()
@@ -47,11 +49,12 @@ public final class LocalPanel extends javax.swing.JFrame
                 int k = 0;
                 while (resultado.next())
                 {
+                    int LocalID = resultado.getInt("Local_ID"); 
                     String _Nome = resultado.getString("Nome");
                     String _Descr = resultado.getString("Descr");
                     int _UserID = resultado.getInt("User_ID");
                     
-                    _Local newLocal = new _Local(k, _Nome, _Descr, _UserID);
+                    _Local newLocal = new _Local(LocalID, _Nome, _Descr, _UserID);
                     instance.insertInstance(newLocal, k);
                     System.out.println("Index inserido: " + k);
                     k++;
@@ -86,19 +89,31 @@ public final class LocalPanel extends javax.swing.JFrame
 
         ListaLocais.setModel(listModel);
     }
-    
+   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        AdicionarFrame = new javax.swing.JFrame();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         ListaLocais = new javax.swing.JList<>();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        ButtonDetalhes = new javax.swing.JButton();
+        ButtonAdicionar = new javax.swing.JButton();
+        ButtonRemover = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+
+        javax.swing.GroupLayout AdicionarFrameLayout = new javax.swing.GroupLayout(AdicionarFrame.getContentPane());
+        AdicionarFrame.getContentPane().setLayout(AdicionarFrameLayout);
+        AdicionarFrameLayout.setHorizontalGroup(
+            AdicionarFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 275, Short.MAX_VALUE)
+        );
+        AdicionarFrameLayout.setVerticalGroup(
+            AdicionarFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 351, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Locais");
@@ -115,11 +130,26 @@ public final class LocalPanel extends javax.swing.JFrame
         });
         jScrollPane1.setViewportView(ListaLocais);
 
-        jButton1.setText("Detalhes");
+        ButtonDetalhes.setText("Detalhes");
+        ButtonDetalhes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonDetalhesActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Adicionar");
+        ButtonAdicionar.setText("Adicionar");
+        ButtonAdicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonAdicionarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText("Remover");
+        ButtonRemover.setText("Remover");
+        ButtonRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ButtonRemoverActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Fechar");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -150,11 +180,11 @@ public final class LocalPanel extends javax.swing.JFrame
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ButtonDetalhes, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ButtonAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ButtonRemover, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -168,9 +198,9 @@ public final class LocalPanel extends javax.swing.JFrame
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(ButtonDetalhes)
+                    .addComponent(ButtonAdicionar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ButtonRemover, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(42, 42, 42)
                 .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                 .addContainerGap())
@@ -183,6 +213,34 @@ public final class LocalPanel extends javax.swing.JFrame
         dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void ButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAdicionarActionPerformed
+        AddLocal adicionarLocal = new AddLocal(this.UserInstance, this.LocalInstance, this);
+        adicionarLocal.setVisible(true);
+        adicionarLocal.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
+    }//GEN-LAST:event_ButtonAdicionarActionPerformed
+
+    private void ButtonRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonRemoverActionPerformed
+        int index = ListaLocais.getSelectedIndex();
+        if (index >= 0)
+        {
+            try 
+            {
+                this.LocalInstance.removeLocal(index);
+                loadLocalInstances(this.LocalInstance);
+            } catch (Exception ex) 
+            {
+                Logger.getLogger(LocalPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }      
+        }
+    }//GEN-LAST:event_ButtonRemoverActionPerformed
+
+    private void ButtonDetalhesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonDetalhesActionPerformed
+        DetalhesLocal det = new DetalhesLocal(ListaLocais.getSelectedIndex(), this.UserInstance, this.LocalInstance);
+        det.setVisible(true);
+        det.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
+    }//GEN-LAST:event_ButtonDetalhesActionPerformed
+
+    // <editor-fold defaultstate="collapsed" desc="NetBeans Default">
     public static void main(String args[]) 
     {
         /* Set the Nimbus look and feel */
@@ -222,13 +280,15 @@ public final class LocalPanel extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JFrame AdicionarFrame;
+    private javax.swing.JButton ButtonAdicionar;
+    private javax.swing.JButton ButtonDetalhes;
+    private javax.swing.JButton ButtonRemover;
     private javax.swing.JList<String> ListaLocais;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+    // </editor-fold> 
 }

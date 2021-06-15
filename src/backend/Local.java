@@ -1,8 +1,11 @@
 package backend;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import util.MySQL;
 
 public class Local 
 {      
+    // <editor-fold defaultstate="collapsed" desc="_Local Class">
     public static class _Local
     {
         // Private Attributes
@@ -41,6 +44,7 @@ public class Local
             this.UserID = _TarefaID;
         }
     }
+    // </editor-fold> 
     
     // Contem todas as instancias de todos os locais
     private int ArrayLocaisLength;
@@ -64,5 +68,43 @@ public class Local
             locais[position] = instance;
         else
             System.out.println("Quantidade Maxima de locais atingidas.");
+    }
+    
+    // Adiciona um novo local
+    public void addLocal(String _Nome, String _Dresc, int _UserID) throws Exception
+    {
+        try (Connection conn = MySQL.abrir())
+        {
+            String SQL = "INSERT INTO local(Nome, Descr, User_ID) VALUES('" + _Nome + "', '" + _Dresc + "'," + _UserID + ");";
+            System.out.println(SQL);
+            try(PreparedStatement stmt = conn.prepareStatement(SQL);)
+            {
+                stmt.execute();
+                
+                // Close
+                stmt.close();
+                conn.close();
+            }
+        }
+    }
+    
+    // Remove um local
+    public void removeLocal(int LocalID) throws Exception
+    {
+        int _LocalID = this.locais[LocalID].getLocalID();
+        
+        try (Connection conn = MySQL.abrir())
+        {
+            String SQL = "DELETE FROM local WHERE Local_ID =" + _LocalID +";";
+            System.out.println(SQL);
+            try(PreparedStatement stmt = conn.prepareStatement(SQL);)
+            {
+                stmt.execute();
+                
+                // Close
+                stmt.close();
+                conn.close();      
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 package frontend;
 
 import backend.User;
+import backend.Local;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -8,10 +9,17 @@ import java.util.logging.Logger;
 public class MainFrame extends javax.swing.JFrame 
 {
     public User UserInstance;
+    public Local LocalInstance;
     
-    public MainFrame() 
+    public MainFrame(User _UserInstance) throws Exception 
     {
         initComponents();
+        this.UserInstance = _UserInstance;
+        
+        // Load Local Instance
+        Local local = new Local(this.UserInstance.userID);
+        this.LocalInstance = local;
+        //System.out.println(local.);
     }
 
     public void loadFrame(User user)
@@ -188,17 +196,23 @@ public class MainFrame extends javax.swing.JFrame
     }//GEN-LAST:event_AdminPanelActionPerformed
 
     private void TarefasButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TarefasButtonActionPerformed
-        TarefasPanel tarefas = new TarefasPanel();
-        tarefas.setVisible(true);
-        tarefas.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
-        tarefas.loadTarefas();
+        TarefasPanel tarefas;
+        try 
+        {
+            tarefas = new TarefasPanel(this.UserInstance, this.LocalInstance);
+            tarefas.setVisible(true);
+            tarefas.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
+        } catch (Exception ex) 
+        {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_TarefasButtonActionPerformed
 
     private void LocalPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LocalPanelActionPerformed
         LocalPanel local;
         try 
         {
-            local = new LocalPanel(this.getUserInstance());
+            local = new LocalPanel(this.getUserInstance(), this.LocalInstance);
             local.setVisible(true);
             local.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
         } catch (Exception ex) 
@@ -221,9 +235,6 @@ public class MainFrame extends javax.swing.JFrame
             java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
-        java.awt.EventQueue.invokeLater(() -> {
-            new MainFrame().setVisible(true);
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

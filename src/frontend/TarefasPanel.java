@@ -1,22 +1,91 @@
 package frontend;
+import backend.Local;
+import backend.User;
+import backend.Tarefa;
+import backend.Tarefa._Tarefa;
+import java.awt.Toolkit;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import util.MySQL;
 
-public class TarefasPanel extends javax.swing.JFrame {
-
-    public void loadTarefas()
+public final class TarefasPanel extends javax.swing.JFrame 
+{
+    public User UserInstance;
+    public Local LocalInstance;
+    public Tarefa TarefaInstance;
+    
+    public TarefasPanel(User _UserInstance, Local _LocalInstance) throws Exception 
     {
-        DefaultListModel lista = new DefaultListModel();
+        this.UserInstance = _UserInstance;
+        this.LocalInstance = _LocalInstance;
         
-        // Carregar todas as Tarefas;
-        lista.addElement("item 1");
+        // Load Tarefa Class
+        Tarefa tarefa = new Tarefa();
+        this.TarefaInstance = tarefa;
         
-        //   
-        
-        _ListaTarefas.setModel(lista);
+        initComponents();
+        loadTarefasInstances(this.TarefaInstance);
     }
     
-    public TarefasPanel() {
-        initComponents();
+    public void loadTarefasInstances(Tarefa instance) throws Exception
+    {
+        // Iniciar Conexao
+        try (Connection conn = MySQL.abrir())
+        {
+            // SQL
+            User _UserInstance = this.UserInstance; 
+            
+            String SQL = "SELECT * FROM tarefa WHERE User_ID = " + _UserInstance.userID + ";";
+            try (PreparedStatement comando = conn.prepareStatement(SQL); ResultSet resultado = comando.executeQuery()) 
+            {   
+                int k = 0;
+                while (resultado.next())
+                {
+                    int _TarefaID = resultado.getInt("Tarefa_ID");
+                    String _Titulo = resultado.getString("Titulo"); 
+                    String _Descr = resultado.getString("Descr");
+                    java.sql.Date _Data = resultado.getDate("Data"); 
+                    java.sql.Time _Time = resultado.getTime("Hora");
+                    int _UserID = resultado.getInt("User_ID");
+                    int _LocalID = resultado.getInt("Local_ID");
+                    
+                    _Tarefa newTarefa = new _Tarefa(_TarefaID, _Titulo, _Descr, _Data, _Time, _UserID, _LocalID);
+                    instance.insertInstance(newTarefa, k);
+                    k++;
+                }
+                
+                // Load Components
+                instance.setInstanceArrayLength(k);
+                loadTarefaPanel(instance);
+                
+                // Close
+                comando.close();
+                conn.close(); 
+            }
+        }
+    }
+    
+    public void loadTarefaPanel(Tarefa instance)
+    {
+        DefaultListModel listModel;
+        listModel = new DefaultListModel();
+        
+        int tamh = instance.getInstanceArrayLength();
+        System.out.println("Tamanho do Array de Instancias: " + tamh);
+        if (tamh > 0)
+        {
+            for(int i = 0; i < tamh; i++)
+            {
+                System.out.println("Index procurado: " + i);
+                listModel.addElement(instance.tarefas[i].getTarefaTitulo());
+            }        
+        }
+
+        _ListaTarefas.setModel(listModel);   
     }
     
     @SuppressWarnings("unchecked")
@@ -27,12 +96,13 @@ public class TarefasPanel extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         ListaTarefas = new javax.swing.JScrollPane();
         _ListaTarefas = new javax.swing.JList<>();
-        jButton2 = new javax.swing.JButton();
+        FecharButton = new javax.swing.JButton();
         DetalhesButton = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        AdicionarButton = new javax.swing.JButton();
+        RemoverButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Tarefas");
         setResizable(false);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/lista-de-tarefas.png"))); // NOI18N
@@ -46,76 +116,94 @@ public class TarefasPanel extends javax.swing.JFrame {
         });
         ListaTarefas.setViewportView(_ListaTarefas);
 
-        jButton2.setText("Fechar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        FecharButton.setText("Fechar");
+        FecharButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                FecharButtonActionPerformed(evt);
             }
         });
 
         DetalhesButton.setText("Detalhes");
 
-        jButton3.setText("Adicionar");
+        AdicionarButton.setText("Adicionar");
+        AdicionarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AdicionarButtonActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Remover");
+        RemoverButton.setText("Remover");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(116, 116, 116)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+                        .addGap(190, 190, 190))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(104, 104, 104))
+                        .addComponent(ListaTarefas)
+                        .addGap(145, 145, 145))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(ListaTarefas, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(DetalhesButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addGap(15, 15, 15))
+                                .addComponent(DetalhesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(AdicionarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(RemoverButton, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(80, 80, 80)
-                                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addGap(48, 48, 48)
+                                .addComponent(FecharButton, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel1)
                 .addGap(86, 86, 86))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(45, 45, 45)
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+                .addGap(38, 38, 38)
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ListaTarefas, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addComponent(ListaTarefas, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(DetalhesButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(68, 68, 68)
-                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                    .addComponent(AdicionarButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(RemoverButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(103, 103, 103)
+                .addComponent(FecharButton)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void FecharButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FecharButtonActionPerformed
         dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_FecharButtonActionPerformed
 
+    private void AdicionarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdicionarButtonActionPerformed
+        AddTarefa addtarefa;
+        try 
+        {
+            addtarefa = new AddTarefa(this.LocalInstance, this.UserInstance, this.TarefaInstance);
+            addtarefa.setVisible(true);
+            addtarefa.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
+        } catch (Exception ex) 
+        {
+            Logger.getLogger(TarefasPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }//GEN-LAST:event_AdicionarButtonActionPerformed
+
+    // <editor-fold defaultstate="collapsed" desc="NetBeans Default">
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -140,20 +228,17 @@ public class TarefasPanel extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new TarefasPanel().setVisible(true);
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AdicionarButton;
     private javax.swing.JButton DetalhesButton;
+    private javax.swing.JButton FecharButton;
     private javax.swing.JScrollPane ListaTarefas;
+    private javax.swing.JButton RemoverButton;
     private javax.swing.JList<String> _ListaTarefas;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
+    // </editor-fold>
 }

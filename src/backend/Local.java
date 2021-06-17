@@ -1,9 +1,10 @@
 package backend;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import util.MySQL;
 
-public class Local 
+public final class Local 
 {      
     // <editor-fold defaultstate="collapsed" desc="_Local Class">
     public static class _Local
@@ -70,6 +71,41 @@ public class Local
             System.out.println("Quantidade Maxima de locais atingidas.");
     }
     
+    // Carregar locais
+    public void loadLocalInstances(int UserID) throws Exception
+    {
+        // Iniciar Conexao
+        try (Connection conn = MySQL.abrir()) 
+        {
+            // SQL
+            String SQL = "SELECT * FROM local WHERE User_ID = " + UserID + ";";
+            
+            try (PreparedStatement comando = conn.prepareStatement(SQL); ResultSet resultado = comando.executeQuery()) 
+            {   
+                int _k = 0;
+                while (resultado.next())
+                {
+                    int LocalID = resultado.getInt("Local_ID"); 
+                    String _Nome = resultado.getString("Nome");
+                    String _Descr = resultado.getString("Descr");
+                    int _UserID = resultado.getInt("User_ID");
+                    
+                    _Local newLocal = new _Local(LocalID, _Nome, _Descr, _UserID);
+                    this.insertInstance(newLocal, _k);
+                    System.out.println("Index inserido: " + _k);
+                    _k++;
+                }
+                
+                // Load Components
+                this.setInstanceArrayLength(_k);
+                
+                // Close
+                comando.close();
+                conn.close();
+            }
+        } 
+    }
+    
     // Adiciona um novo local
     public void addLocal(String _Nome, String _Dresc, int _UserID) throws Exception
     {
@@ -106,5 +142,11 @@ public class Local
                 conn.close();      
             }
         }
+    }
+    
+    // Construtor
+    public Local(int UserID) throws Exception
+    {
+        loadLocalInstances(UserID);
     }
 }

@@ -95,7 +95,8 @@ public class AddLocal extends javax.swing.JFrame
         try 
         {
             instance.addLocal(NomeField.getText(), DescField.getText(), this.UserInstance.userID);
-            this._LocalPanel.loadLocalInstances(this.LocalInstance);
+            this.LocalInstance.loadLocalInstances(this.UserInstance.userID);
+            _LocalPanel.loadLocalPanel(this.LocalInstance);
             dispose();
         } catch (Exception ex) 
         {

@@ -135,10 +135,9 @@ public class LoginFrame extends javax.swing.JFrame
                 user.loadUser();
                 
                 // Load MainFrame
-                MainFrame screen = new MainFrame();
+                MainFrame screen = new MainFrame(user);
                 screen.setVisible(true);
                 screen.loadFrame(user);
-                screen.setUserInstance(user);
                 
                 return;
             }

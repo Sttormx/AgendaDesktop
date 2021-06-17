@@ -1,12 +1,7 @@
 package frontend;
-import util.MySQL;
 import backend.Local;
-import backend.Local._Local;
 import backend.User;
 import java.awt.Toolkit;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -16,13 +11,14 @@ public final class LocalPanel extends javax.swing.JFrame
     public User UserInstance;
     public Local LocalInstance;
     
-    public LocalPanel(User userInstance) throws Exception 
-    {
-        initComponents(); 
-        Local loadLocal = new Local();
-        setUserInstance(userInstance);
-        loadLocalInstances(loadLocal); 
-        this.LocalInstance = loadLocal;
+    public LocalPanel(User userInstance, Local _LocalInstance) throws Exception 
+    {   
+        initComponents();
+        
+        this.UserInstance = userInstance;
+        this.LocalInstance = _LocalInstance;
+        
+        loadLocalPanel(this.LocalInstance);
     }
 
     public User getUserInstance()
@@ -33,42 +29,6 @@ public final class LocalPanel extends javax.swing.JFrame
     public void setUserInstance(User user)
     {
         this.UserInstance = user;
-    }
-    
-    public void loadLocalInstances(Local instance) throws Exception
-    {
-        // Iniciar Conexao
-        try (Connection conn = MySQL.abrir()) 
-        {
-            // SQL
-            User _UserInstance = this.UserInstance; 
-            
-            String SQL = "SELECT * FROM local WHERE User_ID = " + _UserInstance.userID + ";";
-            try (PreparedStatement comando = conn.prepareStatement(SQL); ResultSet resultado = comando.executeQuery()) 
-            {   
-                int k = 0;
-                while (resultado.next())
-                {
-                    int LocalID = resultado.getInt("Local_ID"); 
-                    String _Nome = resultado.getString("Nome");
-                    String _Descr = resultado.getString("Descr");
-                    int _UserID = resultado.getInt("User_ID");
-                    
-                    _Local newLocal = new _Local(LocalID, _Nome, _Descr, _UserID);
-                    instance.insertInstance(newLocal, k);
-                    System.out.println("Index inserido: " + k);
-                    k++;
-                }
-                
-                // Load Components
-                instance.setInstanceArrayLength(k);
-                loadLocalPanel(instance);
-                
-                // Close
-                comando.close();
-                conn.close();
-            }
-        } 
     }
     
     public void loadLocalPanel(Local instance)
@@ -226,7 +186,8 @@ public final class LocalPanel extends javax.swing.JFrame
             try 
             {
                 this.LocalInstance.removeLocal(index);
-                loadLocalInstances(this.LocalInstance);
+                this.LocalInstance.loadLocalInstances(this.UserInstance.userID);
+                loadLocalPanel(this.LocalInstance);
             } catch (Exception ex) 
             {
                 Logger.getLogger(LocalPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -235,9 +196,12 @@ public final class LocalPanel extends javax.swing.JFrame
     }//GEN-LAST:event_ButtonRemoverActionPerformed
 
     private void ButtonDetalhesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonDetalhesActionPerformed
-        DetalhesLocal det = new DetalhesLocal(ListaLocais.getSelectedIndex(), this.UserInstance, this.LocalInstance);
-        det.setVisible(true);
-        det.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
+        if (ListaLocais.getSelectedIndex() >= 0)
+        {
+            DetalhesLocal det = new DetalhesLocal(ListaLocais.getSelectedIndex(), this.UserInstance, this.LocalInstance);
+            det.setVisible(true);
+            det.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);     
+        }
     }//GEN-LAST:event_ButtonDetalhesActionPerformed
 
     // <editor-fold defaultstate="collapsed" desc="NetBeans Default">
@@ -265,18 +229,6 @@ public final class LocalPanel extends javax.swing.JFrame
             java.util.logging.Logger.getLogger(LocalPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> 
-        {
-            try 
-            {
-                new LocalPanel(null).setVisible(true);
-            } catch (Exception ex) 
-            {
-                Logger.getLogger(LocalPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

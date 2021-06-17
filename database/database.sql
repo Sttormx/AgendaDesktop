@@ -44,6 +44,8 @@ CREATE TABLE `tarefa` (
   `Tarefa_ID` int(11) NOT NULL,
   `Titulo` varchar(15) NOT NULL,
   `Descr` varchar(30) NOT NULL,
+  `Data` date NOT NULL,
+  `Hora` time not NULL,
   `User_ID` int(11) NOT NULL,
   `Local_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

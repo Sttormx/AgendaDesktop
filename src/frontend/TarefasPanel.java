@@ -2,15 +2,10 @@ package frontend;
 import backend.Local;
 import backend.User;
 import backend.Tarefa;
-import backend.Tarefa._Tarefa;
 import java.awt.Toolkit;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import util.MySQL;
 
 public final class TarefasPanel extends javax.swing.JFrame 
 {
@@ -18,55 +13,15 @@ public final class TarefasPanel extends javax.swing.JFrame
     public Local LocalInstance;
     public Tarefa TarefaInstance;
     
-    public TarefasPanel(User _UserInstance, Local _LocalInstance) throws Exception 
+    public TarefasPanel(User _UserInstance, Local _LocalInstance, Tarefa _TarefaInstance) throws Exception 
     {
+        initComponents();
+        
         this.UserInstance = _UserInstance;
         this.LocalInstance = _LocalInstance;
+        this.TarefaInstance = _TarefaInstance;
         
-        // Load Tarefa Class
-        Tarefa tarefa = new Tarefa();
-        this.TarefaInstance = tarefa;
-        
-        initComponents();
-        loadTarefasInstances(this.TarefaInstance);
-    }
-    
-    public void loadTarefasInstances(Tarefa instance) throws Exception
-    {
-        // Iniciar Conexao
-        try (Connection conn = MySQL.abrir())
-        {
-            // SQL
-            User _UserInstance = this.UserInstance; 
-            
-            String SQL = "SELECT * FROM tarefa WHERE User_ID = " + _UserInstance.userID + ";";
-            try (PreparedStatement comando = conn.prepareStatement(SQL); ResultSet resultado = comando.executeQuery()) 
-            {   
-                int k = 0;
-                while (resultado.next())
-                {
-                    int _TarefaID = resultado.getInt("Tarefa_ID");
-                    String _Titulo = resultado.getString("Titulo"); 
-                    String _Descr = resultado.getString("Descr");
-                    java.sql.Date _Data = resultado.getDate("Data"); 
-                    java.sql.Time _Time = resultado.getTime("Hora");
-                    int _UserID = resultado.getInt("User_ID");
-                    int _LocalID = resultado.getInt("Local_ID");
-                    
-                    _Tarefa newTarefa = new _Tarefa(_TarefaID, _Titulo, _Descr, _Data, _Time, _UserID, _LocalID);
-                    instance.insertInstance(newTarefa, k);
-                    k++;
-                }
-                
-                // Load Components
-                instance.setInstanceArrayLength(k);
-                loadTarefaPanel(instance);
-                
-                // Close
-                comando.close();
-                conn.close(); 
-            }
-        }
+        loadTarefaPanel(this.TarefaInstance);
     }
     
     public void loadTarefaPanel(Tarefa instance)

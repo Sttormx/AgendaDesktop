@@ -92,7 +92,6 @@ public final class Local
                     
                     _Local newLocal = new _Local(LocalID, _Nome, _Descr, _UserID);
                     this.insertInstance(newLocal, _k);
-                    System.out.println("Index inserido: " + _k);
                     _k++;
                 }
                 

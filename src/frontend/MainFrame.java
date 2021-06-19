@@ -1,7 +1,9 @@
 package frontend;
 
+import frontend.Admin.AdminPanel;
 import backend.User;
 import backend.Local;
+import backend.Tarefa;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,6 +12,7 @@ public class MainFrame extends javax.swing.JFrame
 {
     public User UserInstance;
     public Local LocalInstance;
+    public Tarefa TarefaInstance;
     
     public MainFrame(User _UserInstance) throws Exception 
     {
@@ -19,7 +22,10 @@ public class MainFrame extends javax.swing.JFrame
         // Load Local Instance
         Local local = new Local(this.UserInstance.userID);
         this.LocalInstance = local;
-        //System.out.println(local.);
+        
+        // Load Tarefa Instance
+        Tarefa tarefa = new Tarefa(this.UserInstance.userID);
+        this.TarefaInstance = tarefa;
     }
 
     public void loadFrame(User user)
@@ -192,14 +198,16 @@ public class MainFrame extends javax.swing.JFrame
     }//GEN-LAST:event_AdminPanel1ActionPerformed
 
     private void AdminPanelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminPanelActionPerformed
-        // TODO add your handling code here:
+        AdminPanel admin = new AdminPanel();
+        admin.setVisible(true);
+        admin.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
     }//GEN-LAST:event_AdminPanelActionPerformed
 
     private void TarefasButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TarefasButtonActionPerformed
         TarefasPanel tarefas;
         try 
         {
-            tarefas = new TarefasPanel(this.UserInstance, this.LocalInstance);
+            tarefas = new TarefasPanel(this.UserInstance, this.LocalInstance, this.TarefaInstance);
             tarefas.setVisible(true);
             tarefas.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
         } catch (Exception ex) 

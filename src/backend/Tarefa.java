@@ -1,9 +1,10 @@
 package backend;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import util.MySQL;
 
-public class Tarefa 
+public final class Tarefa 
 {
     // <editor-fold defaultstate="collapsed" desc="_Tarefa Class">
     public static final class _Tarefa
@@ -88,6 +89,43 @@ public class Tarefa
             System.out.println("Quantidade Maxima de locais atingidas.");
     }   
     
+    // Carrega todas as tarefas
+    public void loadTarefasInstances(int UserID) throws Exception
+    {
+        // Iniciar Conexao
+        try (Connection conn = MySQL.abrir())
+        {
+            // SQL
+            String SQL = "SELECT * FROM tarefa WHERE User_ID = " + UserID + ";";
+            
+            try (PreparedStatement comando = conn.prepareStatement(SQL); ResultSet resultado = comando.executeQuery()) 
+            {   
+                int _k = 0;
+                while (resultado.next())
+                {
+                    int _TarefaID = resultado.getInt("Tarefa_ID");
+                    String _Titulo = resultado.getString("Titulo"); 
+                    String _Descr = resultado.getString("Descr");
+                    java.sql.Date _Data = resultado.getDate("Data"); 
+                    java.sql.Time _Time = resultado.getTime("Hora");
+                    int _UserID = resultado.getInt("User_ID");
+                    int _LocalID = resultado.getInt("Local_ID");
+                    
+                    _Tarefa newTarefa = new _Tarefa(_TarefaID, _Titulo, _Descr, _Data, _Time, _UserID, _LocalID);
+                    this.insertInstance(newTarefa, _k);
+                    _k++;
+                }
+                
+                // Load Components
+                this.setInstanceArrayLength(_k);
+                
+                // Close
+                comando.close();
+                conn.close(); 
+            }
+        }
+    }
+    
     // Adiciona uma nova tarefa
     public void addTarefa(String _Nome, String _Dresc, String Data, String Horario, int _UserID, int _LocalID) throws Exception
     {
@@ -106,4 +144,8 @@ public class Tarefa
         }
     }
     
+    public Tarefa(int UserID) throws Exception
+    {
+        this.loadTarefasInstances(UserID);
+    }
 }

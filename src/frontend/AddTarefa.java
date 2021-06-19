@@ -54,6 +54,7 @@ public final class AddTarefa extends javax.swing.JFrame
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Adicionar Tarefa");
+        setResizable(false);
 
         jLabel1.setText("Nome");
 

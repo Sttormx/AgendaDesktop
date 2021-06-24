@@ -1,4 +1,5 @@
-package frontend;
+package frontend.Tarefa;
+import frontend.Local.LocalPanel;
 import backend.Local;
 import backend.User;
 import backend.Tarefa;
@@ -88,6 +89,11 @@ public final class TarefasPanel extends javax.swing.JFrame
         });
 
         RemoverButton.setText("Remover");
+        RemoverButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RemoverButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -149,7 +155,7 @@ public final class TarefasPanel extends javax.swing.JFrame
         AddTarefa addtarefa;
         try 
         {
-            addtarefa = new AddTarefa(this.LocalInstance, this.UserInstance, this.TarefaInstance);
+            addtarefa = new AddTarefa(this.LocalInstance, this.UserInstance, this.TarefaInstance, this);
             addtarefa.setVisible(true);
             addtarefa.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width  - getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) / 2);
         } catch (Exception ex) 
@@ -157,6 +163,22 @@ public final class TarefasPanel extends javax.swing.JFrame
             Logger.getLogger(TarefasPanel.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }//GEN-LAST:event_AdicionarButtonActionPerformed
+
+    private void RemoverButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoverButtonActionPerformed
+        int index = _ListaTarefas.getSelectedIndex();
+        if (index >= 0)
+        {
+            try
+            {
+                this.TarefaInstance.removeTarefa(index);
+                this.TarefaInstance.loadTarefasInstances(this.UserInstance.userID);
+                loadTarefaPanel(this.TarefaInstance);
+            } catch (Exception ex) 
+            {
+                Logger.getLogger(LocalPanel.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+        }
+    }//GEN-LAST:event_RemoverButtonActionPerformed
 
     // <editor-fold defaultstate="collapsed" desc="NetBeans Default">
     public static void main(String args[]) {

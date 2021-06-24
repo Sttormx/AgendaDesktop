@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `local` (
   `Local_ID` int(11) NOT NULL,
   `Nome` varchar(50) NOT NULL,
-  `Descr` varchar(50) NOT NULL,
+  `Descr` text NOT NULL,
   `User_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -42,8 +42,8 @@ CREATE TABLE `local` (
 
 CREATE TABLE `tarefa` (
   `Tarefa_ID` int(11) NOT NULL,
-  `Titulo` varchar(15) NOT NULL,
-  `Descr` varchar(30) NOT NULL,
+  `Titulo` varchar(50) NOT NULL,
+  `Descr` text NOT NULL,
   `Data` date NOT NULL,
   `Hora` time not NULL,
   `User_ID` int(11) NOT NULL,
@@ -58,11 +58,10 @@ CREATE TABLE `tarefa` (
 
 CREATE TABLE `usuario` (
   `User_ID` int(11) NOT NULL,
-  `User` varchar(20) NOT NULL,
-  `Senha` varchar(20) NOT NULL,
-  `Nome` varchar(20) NOT NULL,
+  `User` varchar(30) NOT NULL,
+  `Senha` varchar(30) NOT NULL,
+  `Nome` varchar(50) NOT NULL,
   `Notificacoes` int(11) NOT NULL,
-  `Template` int(11) NOT NULL,
   `Administrador` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -70,8 +69,8 @@ CREATE TABLE `usuario` (
 -- Extraindo dados da tabela `usuario`
 --
 
-INSERT INTO `usuario` (`User_ID`, `User`, `Senha`, `Nome`, `Notificacoes`, `Template`, `Administrador`) VALUES
-(1, 'admin', 'admin', 'Administrador', 0, 1, 1);
+INSERT INTO `usuario` (`User_ID`, `User`, `Senha`, `Nome`, `Notificacoes`, `Administrador`) VALUES
+(1, 'admin', 'admin', 'Administrador', 0, 1);
 
 --
 -- Índices para tabelas despejadas

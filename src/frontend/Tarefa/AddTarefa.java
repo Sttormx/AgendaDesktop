@@ -1,4 +1,5 @@
-package frontend;
+package frontend.Tarefa;
+import frontend.Tarefa.TarefasPanel;
 import backend.Local;
 import backend.User;
 import backend.Tarefa;
@@ -12,12 +13,14 @@ public final class AddTarefa extends javax.swing.JFrame
     public Local LocalInstance;
     public Tarefa TarefaInstance;
     public User UserInstance;
+    public TarefasPanel TarefaPanel;
     
-    public AddTarefa(Local _LocalInstance, User _UserInstance, Tarefa _TarefaInstance) throws Exception 
+    public AddTarefa(Local _LocalInstance, User _UserInstance, Tarefa _TarefaInstance, TarefasPanel _TarefaPanel) throws Exception 
     {
         this.UserInstance = _UserInstance;
         this.LocalInstance = _LocalInstance;
         this.TarefaInstance = _TarefaInstance;
+        this.TarefaPanel = _TarefaPanel;
         
         this.LocalInstance.loadLocalInstances(this.UserInstance.userID);
         
@@ -167,6 +170,9 @@ public final class AddTarefa extends javax.swing.JFrame
                         try 
                         { 
                             this.TarefaInstance.addTarefa(NomeField.getText(), DescField.getText(), nData, nHorario, this.UserInstance.userID, this.LocalInstance.locais[LocalField.getSelectedIndex()].getLocalID());
+                            this.TarefaInstance.loadTarefasInstances(this.UserInstance.userID);
+                            this.TarefaPanel.loadTarefaPanel(this.TarefaInstance);
+                            dispose();
                         } catch (Exception ex) 
                         {
                             Logger.getLogger(AddTarefa.class.getName()).log(Level.SEVERE, null, ex);

@@ -356,6 +356,7 @@ public class userControl extends javax.swing.JFrame
                     try 
                     {
                         saveUser(userID, Nome, Login, Senha, notify, admin);
+                        jError.setText("");
                         dispose();
                     } catch (SQLException ex) 
                     {
@@ -379,11 +380,18 @@ public class userControl extends javax.swing.JFrame
             return;
         }
         
+        if (UserID == Main.user.userID)
+        {
+            jError.setText("Voce nao pode deletar si mesmo.");
+            return;  
+        }
+        
         try 
         {
             deleteUser(UserID);
             this.jUserBox.removeAllItems();
             this.loadAllUsers();
+            jError.setText("");
         } catch (SQLException ex) 
         {
             Logger.getLogger(userControl.class.getName()).log(Level.SEVERE, null, ex);

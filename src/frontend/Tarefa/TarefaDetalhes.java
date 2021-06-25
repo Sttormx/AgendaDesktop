@@ -5,7 +5,6 @@ import backend.Main;
 import backend.Tarefa;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.swing.JTextField;
 
 public class TarefaDetalhes extends javax.swing.JFrame 

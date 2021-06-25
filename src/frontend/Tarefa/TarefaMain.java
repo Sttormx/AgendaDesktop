@@ -1,12 +1,9 @@
 package frontend.Tarefa;
-import backend.Local;
 import backend.Main;
 import java.awt.Color;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
 import javax.swing.DefaultListModel;
 
-public class TarefaMain extends javax.swing.JFrame 
+public final class TarefaMain extends javax.swing.JFrame 
 {
 
     public TarefaMain() 
@@ -213,8 +210,8 @@ public class TarefaMain extends javax.swing.JFrame
     }//GEN-LAST:event_jAdicionarMouseExited
 
     private void jAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAdicionarActionPerformed
-        //LocalAdd localadd = new LocalAdd(this);
-        //localadd.setVisible(true);
+        TarefaAdd newtarefa = new TarefaAdd(this);
+        newtarefa.setVisible(true);
     }//GEN-LAST:event_jAdicionarActionPerformed
 
     private void jDetalhesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jDetalhesMouseEntered
@@ -231,8 +228,8 @@ public class TarefaMain extends javax.swing.JFrame
         int index = jTarefas.getSelectedIndex();
         if (index >= 0)
         {
-            //LocalDetalhes localdet = new LocalDetalhes(this, index);
-            //localdet.setVisible(true);
+            TarefaDetalhes detalhes = new TarefaDetalhes(this, index);
+            detalhes.setVisible(true);
         }
     }//GEN-LAST:event_jDetalhesActionPerformed
 
@@ -247,19 +244,19 @@ public class TarefaMain extends javax.swing.JFrame
     }//GEN-LAST:event_jExcluirMouseExited
 
     private void jExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jExcluirActionPerformed
-        /*int index = jTarefas.getSelectedIndex();
+        int index = jTarefas.getSelectedIndex();
         if (index >= 0)
         {
             try
             {
-                Main.local.removeLocal(index);
-                Main.local.loadLocalInstances(Main.user.userID);
-                loadLocalPanel(Main.local);
-            } catch (Exception ex)
+                Main.tarefa.removeTarefa(index);
+                Main.tarefa.loadTarefasInstances(Main.user.userID);
+                loadTarefaPanel();
+            } catch (Exception ex) 
             {
-                Logger.getLogger(LocalMain.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }*/
+                java.util.logging.Logger.getLogger(TarefaMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            } 
+        }
     }//GEN-LAST:event_jExcluirActionPerformed
 
     private void jSairMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jSairMouseEntered

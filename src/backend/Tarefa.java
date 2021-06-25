@@ -12,6 +12,8 @@ public final class Tarefa
         private final String Descr;
         private final java.sql.Date Data;
         private final java.sql.Time Hora;
+        private final int HoraInt;
+        private final int MinutosInt;
         private final int UserID;
         private final int LocalID;
         
@@ -40,6 +42,16 @@ public final class Tarefa
             return this.Hora;
         }
         
+        public int getHoraInt()
+        {
+            return this.HoraInt;
+        }
+        
+        public int getMinutosInt()
+        {
+            return this.MinutosInt;
+        }
+        
         public int getTarefaUserID()
         {
             return this.UserID;
@@ -50,7 +62,7 @@ public final class Tarefa
             return this.LocalID;
         }
         
-        public _Tarefa(int _TarefaID, String _Titulo, String _Descr, java.sql.Date _Data, java.sql.Time _Hora, int _UserID, int _LocalID)
+        public _Tarefa(int _TarefaID, String _Titulo, String _Descr, java.sql.Date _Data, java.sql.Time _Hora, int _UserID, int _LocalID, int _HoraInt, int _MinutosInt)
         {
             this.TarefaID = _TarefaID;
             this.Titulo = _Titulo;
@@ -59,6 +71,8 @@ public final class Tarefa
             this.LocalID = _LocalID;
             this.Data =_Data;
             this.Hora = _Hora;
+            this.HoraInt = _HoraInt;
+            this.MinutosInt = _MinutosInt;
         }
     }  
     // </editor-fold>
@@ -105,8 +119,13 @@ public final class Tarefa
                 java.sql.Time _Time = resultado.getTime("Hora");
                 int _UserID = resultado.getInt("User_ID");
                 int _LocalID = resultado.getInt("Local_ID");
-
-                _Tarefa newTarefa = new _Tarefa(_TarefaID, _Titulo, _Descr, _Data, _Time, _UserID, _LocalID);
+                
+                String _HoraInt = _Time.toString().split(":")[0];
+                String _MinutosInt = _Time.toString().split(":")[1];
+                System.out.println(_HoraInt);
+                System.out.println(_MinutosInt);
+                
+                _Tarefa newTarefa = new _Tarefa(_TarefaID, _Titulo, _Descr, _Data, _Time, _UserID, _LocalID, Integer.parseInt(_HoraInt), Integer.parseInt(_MinutosInt));
                 this.insertInstance(newTarefa, _k);
                 _k++;
             }
@@ -130,6 +149,21 @@ public final class Tarefa
         String SQL = "DELETE FROM tarefa WHERE Tarefa_ID =" + _TarefaID +";";
         System.out.println(SQL);
         MySQL.executeDelete(Main.connection, SQL);
+    }
+    
+    // Update Tarefa
+    public void updateTarefa(int TarefaID, String Titulo, String Desc, String Data, String Horario, int _LocalID) throws Exception
+    {
+        String SQL = "UPDATE tarefa SET ";
+        SQL += "Titulo = '" + Titulo + "', ";
+        SQL += "Descr = '" + Desc + "', ";
+        SQL += "Data = '" + Data + "', ";
+        SQL += "Hora = '" + Horario + "', ";
+        SQL += "Local_ID = " + _LocalID + " "; 
+        SQL += "WHERE Tarefa_ID = " + TarefaID + ";";
+    
+        System.out.println(SQL);
+        MySQL.executeUpdate(Main.connection, SQL);
     }
     
     // Construtor
